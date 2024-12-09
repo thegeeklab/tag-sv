@@ -1,0 +1,6 @@
+/dist
+/release
+/tag-sv*
+
+coverage.out
+CHANGELOG.md
