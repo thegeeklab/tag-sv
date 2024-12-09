@@ -1,5 +1,5 @@
 repository:
-  name: git-sv
+  name: tag-sv
   description: Create tags from SemVer version string
   topics: cli, tools, git
 
