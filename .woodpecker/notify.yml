@@ -20,7 +20,7 @@ steps:
       access_token:
         from_secret: matrix_access_token
     when:
-      - status: [success, failure]
+      - status: [failure]
 
 depends_on:
   - docs
