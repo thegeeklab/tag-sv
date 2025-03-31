@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -23,55 +24,57 @@ var (
 func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	cli.VersionPrinter = func(c *cli.Context) {
-		fmt.Printf("%s version=%s date=%s\n", c.App.Name, c.App.Version, BuildDate)
+	cli.VersionPrinter = func(c *cli.Command) {
+		fmt.Printf("%s version=%s date=%s\n", c.Name, c.Version, BuildDate)
 	}
 
+	ctx := context.Background()
 	config := app.Config{}
 
-	app := &cli.App{
+	app := &cli.Command{
 		Name:      "tag-sv",
 		Usage:     "Create tags from SemVer version string",
 		ArgsUsage: "VERSION",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "output-file",
-				EnvVars:     []string{"TAG_SV_OUTPUT_FILE"},
+				Sources:     cli.EnvVars("TAG_SV_OUTPUT_FILE"),
 				Destination: &config.OutputFile,
 				Usage:       "path to write the tags output (default: stdout)",
 			},
 			&cli.StringFlag{
 				Name:        "suffix",
-				EnvVars:     []string{"TAG_SV_SUFFIX"},
+				Sources:     cli.EnvVars("TAG_SV_SUFFIX"),
 				Destination: &config.Suffix,
 				Usage:       "add a suffix to all tags",
 			},
 			&cli.BoolFlag{
 				Name:        "suffix-strict",
-				EnvVars:     []string{"TAG_SV_SUFFIX_STRICT"},
+				Sources:     cli.EnvVars("TAG_SV_SUFFIX_STRICT"),
 				Destination: &config.SuffixStrict,
 				Usage:       "only output tags with suffixes when suffix is set",
 			},
 			&cli.StringFlag{
 				Name:        "extra-tags",
-				EnvVars:     []string{"TAG_SV_EXTRA_TAGS"},
+				Sources:     cli.EnvVars("TAG_SV_EXTRA_TAGS"),
 				Destination: &config.ExtraTags,
 				Usage:       "additional tags to include, comma-separated",
 			},
 			&cli.BoolFlag{
 				Name:        "force-latest",
-				EnvVars:     []string{"TAG_SV_FORCE_LATEST"},
+				Sources:     cli.EnvVars("TAG_SV_FORCE_LATEST"),
 				Destination: &config.ForceLatest,
 				Usage:       "always include 'latest' tag in output",
 			},
 			&cli.BoolFlag{
 				Name:        "ignore-pre",
-				EnvVars:     []string{"TAG_SV_IGNORE_PRERELEASE"},
+				Sources:     cli.EnvVars("TAG_SV_IGNORE_PRERELEASE"),
 				Destination: &config.IgnorePre,
 				Usage:       "ignore pre-release and always get the full tag list",
 			},
 		},
-		Action: func(c *cli.Context) error {
+
+		Action: func(_ context.Context, c *cli.Command) error {
 			if c.NArg() < 1 {
 				return app.ErrMissingVersion
 			}
@@ -81,7 +84,7 @@ func main() {
 		},
 	}
 
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(ctx, os.Args); err != nil {
 		log.Fatal().Err(err).Msg("Execution error")
 	}
 }
