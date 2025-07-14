@@ -83,7 +83,6 @@ func main() {
 			return run(config, v)
 		},
 	}
-
 	if err := app.Run(ctx, os.Args); err != nil {
 		log.Fatal().Err(err).Msg("Execution error")
 	}
