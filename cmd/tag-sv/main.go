@@ -78,6 +78,7 @@ func main() {
 			if c.NArg() < 1 {
 				return app.ErrMissingVersion
 			}
+
 			v := c.Args().First()
 
 			return run(config, v)
