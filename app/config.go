@@ -1,8 +1,8 @@
 package app
 
-import "fmt"
+import "errors"
 
-var ErrMissingVersion = fmt.Errorf("version argument is required")
+var ErrMissingVersion = errors.New("version argument is required")
 
 type Config struct {
 	OutputFile   string
