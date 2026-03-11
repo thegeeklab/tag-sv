@@ -17,6 +17,10 @@ LABEL org.opencontainers.image.url="https://github.com/thegeeklab/tag-sv"
 LABEL org.opencontainers.image.source="https://github.com/thegeeklab/tag-sv"
 LABEL org.opencontainers.image.documentation="https://github.com/thegeeklab/tag-sv"
 
+RUN apk upgrade --no-cache zlib && \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/*
+
 COPY --from=build /src/dist/tag-sv /bin/tag-sv
 CMD ["--help"]
 ENTRYPOINT ["/bin/tag-sv"]
