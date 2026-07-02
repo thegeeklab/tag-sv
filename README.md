@@ -3,7 +3,6 @@
 Create tags from SemVer version string
 
 [![Build Status](https://ci.thegeeklab.de/api/badges/thegeeklab/tag-sv/status.svg)](https://ci.thegeeklab.de/repos/thegeeklab/tag-sv)
-[![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/tag-sv)](https://goreportcard.com/report/github.com/thegeeklab/tag-sv)
 [![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/tag-sv)](https://github.com/thegeeklab/tag-sv/graphs/contributors)
 [![License: MIT](https://img.shields.io/github/license/thegeeklab/tag-sv)](https://github.com/thegeeklab/tag-sv/blob/main/LICENSE)
 
